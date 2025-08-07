@@ -102,6 +102,7 @@ parser.add_argument(
 parser.add_argument("-p", "--pnetreg", default=False, action="store_true")
 parser.add_argument("-n", "--neutrino", default=False, action="store_true")
 parser.add_argument("-c", "--closure", default=False, action="store_true")
+parser.add_argument("-cl2", "--closure-l2", default=False, action="store_true")
 parser.add_argument("-f", "--fast", default=False, action="store_true")
 parser.add_argument("-of", "--only-failed", default=False, action="store_true")
 parser.add_argument("-m", "--max_files", default=9999)
@@ -175,6 +176,10 @@ if "neutrino" in version:
 closure = args.closure
 if "closure" in version:
     closure = True
+    
+closureOnlyL2=args.closure_l2
+if "closureOnlyL2" in version:
+    closureOnlyL2 = True
 
 
 if not args.fast:
@@ -216,13 +221,22 @@ if not args.fast:
     # find line that starts with bool CLOSURE_L2L3RES
     for line in filedata.split("\n"):
         if line.startswith("bool CLOSURE_L2L3RES"):
-            if closure:
+            if closure and not closureOnlyL2:
                 print("Setting CLOSURE_L2L3RES to true")
                 line_new = f"bool CLOSURE_L2L3RES = true;"
             else:
                 print("Setting CLOSURE_L2L3RES to false")
                 line_new = f"bool CLOSURE_L2L3RES = false;"
-            break
+            # break
+        if line.startswith("bool CLOSURE_L2RES"):
+            if closureOnlyL2:
+                print("Setting CLOSURE_L2RES to true")
+                line_new = f"bool CLOSURE_L2RES = true;"
+            else:
+                print("Setting CLOSURE_L2RES to false")
+                line_new = f"bool CLOSURE_L2RES = false;"
+            # break
+            
     # modify line
     filedata = filedata.replace(line, line_new)
 
@@ -261,7 +275,7 @@ if not args.fast:
         file.write(filedata)
     time.sleep(10)
 
-
+raise Exception
 for iov in IOV_input:
     print(f"Process DijetHistosFill.C+g for IOV {iov}")
 
