@@ -20,6 +20,17 @@ bool copyBin(string trg, string folder, string histo, double pt, double eta);
 void DijetHistosCombines(string file = "rootfiles/"+version+"/jmenano_data_out.root");
 
 void DijetHistosCombine() {
+  if (YEAR == "2024" || YEAR == "all"){
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2024C_JME_"+version+".root");
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2024D_JME_"+version+".root");
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2024E_JME_"+version+".root");
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2024F_JME_"+version+".root");
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2024G_JME_"+version+".root");
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2024H_JME_"+version+".root");
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2024I_JME_"+version+".root");
+  DijetHistosCombines("../rootfiles/"+version+"/jmenano_mc_out_2024QCD_"+version+".root");
+  }
+
   if (YEAR == "2023" || YEAR == "all"){
   DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2023D_JME_"+version+".root");
   DijetHistosCombines("../rootfiles/"+version+"/jmenano_data_out_2023Cv4_JME_"+version+".root");
