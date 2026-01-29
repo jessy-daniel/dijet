@@ -73,20 +73,20 @@ IOV_list = (
 # resources for slurm
 res_iovs = {
     # dataset: [memory, hours, days]
-    "2024C": [8, 20, ""],
-    "2024D": [8, 20, ""],
-    "2024E": [8, 20, ""],
-    "2024F": [8, 20, ""],
-    "2024G": [8, 20, ""],
-    "2024H": [8, 20, ""],
-    "2024I": [8, 20, ""],
-    "2024C_ZB": [8, 20, ""],
-    "2024D_ZB": [8, 20, ""],
-    "2024E_ZB": [8, 20, ""],
-    "2024F_ZB": [8, 20, ""],
-    "2024G_ZB": [8, 20, ""],
-    "2024H_ZB": [8, 20, ""],
-    "2024I_ZB": [8, 20, ""],
+    "2024C": [5, 8, ""],
+    "2024D": [5, 8, ""],
+    "2024E": [5, 8, ""],
+    "2024F": [5, 8, ""],
+    "2024G": [5, 8, ""],
+    "2024H": [5, 8, ""],
+    "2024I": [5, 8, ""],
+    "2024C_ZB": [5, 8, ""],
+    "2024D_ZB": [5, 8, ""],
+    "2024E_ZB": [5, 8, ""],
+    "2024F_ZB": [5, 8, ""],
+    "2024G_ZB": [5, 8, ""],
+    "2024H_ZB": [5, 8, ""],
+    "2024I_ZB": [5, 8, ""],
     "2023Cv4": [1, 8, ""],
     "2023D": [5, 6, ""],  # [5, 0, "2-"],
     "2023Cv123": [5, 6, ""],
@@ -332,6 +332,9 @@ if not args.fast:
                 print("Setting CLOSURE_L2L3RES to false")
                 line_new = f"bool CLOSURE_L2L3RES = false;"
             break
+    
+    # modify line
+    filedata = filedata.replace(line, line_new)
             
     for line in filedata.split("\n"):
         if line.startswith("bool CLOSURE_L2RES"):
@@ -342,7 +345,7 @@ if not args.fast:
                 print("Setting CLOSURE_L2RES to false")
                 line_new = f"bool CLOSURE_L2RES = false;"
             break
-            
+    
     # modify line
     filedata = filedata.replace(line, line_new)
 

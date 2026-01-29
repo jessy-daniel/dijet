@@ -25,12 +25,12 @@
 #include <string_view>
 
 // #define PNETREG
-#define PNETREGNEUTRINO
+// #define PNETREGNEUTRINO
 // #define UPARTREG
-// #define UPARTREGNEUTRINO
+#define UPARTREGNEUTRINO
 
 bool CLOSURE_L2RES = false;
-bool CLOSURE_L2L3RES = true;
+bool CLOSURE_L2L3RES = false;
 bool RESCALE_MASS= true;
 
 // Recalculate JECs
@@ -314,7 +314,7 @@ public:
 FactorizedJetCorrector *getFJC(string l1 = "", string l2 = "", string res = "",
                                string path = "")
 {
-
+  cout << "getFJC called with l1=" << l1 << ", l2=" << l2 << ", res=" << res << ", path=" << path << endl;
   // Set default jet algo
   if (l1 != "" && !(TString(l1.c_str()).Contains("_AK")))
     l1 += "_AK4PFPuppi";
@@ -558,14 +558,14 @@ void DijetHistosFill::Loop()
 
   #if defined UPARTREG
   cout << "USING UPART REGRESSION" << endl;
-  fChain->SetBranchStatus("Jet_UparTRegPtRawCorr", 1);
-  // fChain->SetBranchStatus("Jet_UparTRegPtRawCorrNeutrino", 1);
+  fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorr", 1);
+  // fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorrNeutrino", 1);
   #endif
 
   #if defined UPARTREGNEUTRINO
   cout << "USING UPART REGRESSION NEUTRINO" << endl;
-  fChain->SetBranchStatus("Jet_UparTRegPtRawCorr", 1);
-  fChain->SetBranchStatus("Jet_UparTRegPtRawCorrNeutrino", 1);
+  fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorr", 1);
+  fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorrNeutrino", 1);
   #endif
 
   if (isRun2)
@@ -2580,7 +2580,7 @@ void DijetHistosFill::Loop()
       TString(dataset.c_str()).Contains("Summer23MGBPix"))
     fjv = new TFile("files/jetveto2023D.root", "READ");
   if (dataset == "2024C" || dataset == "2024C_ZB" ||
-      datset == "2024D" || dataset == "2024D_ZB" ||
+      dataset == "2024D" || dataset == "2024D_ZB" ||
       dataset == "2024E" || dataset == "2024E_ZB" ||
       dataset == "2024F" || dataset == "2024F_ZB" ||
       dataset == "2024G" || dataset == "2024G_ZB" ||
@@ -2912,9 +2912,9 @@ void DijetHistosFill::Loop()
       #endif
 
       #ifdef UPARTREG
-      double Jet_UparTRegPtRawCorrTotal = Jet_UparTRegPtRawCorr[i];
+      double Jet_UparTRegPtRawCorrTotal = Jet_UparTAK4RegPtRawCorr[i];
       #elif defined UPARTREGNEUTRINO
-      double Jet_UparTRegPtRawCorrTotal = Jet_UparTRegPtRawCorrNeutrino[i];
+      double Jet_UparTRegPtRawCorrTotal = Jet_UparTAK4RegPtRawCorrNeutrino[i];
       #else
       double Jet_UparTRegPtRawCorrTotal = 1.;
       #endif
@@ -3054,7 +3054,7 @@ void DijetHistosFill::Loop()
 
     if (isMC && smearJets)
     {
-      #ifdef PNETREGNEUTRINO || defined UPARTREGNEUTRINO
+      #if defined(PNETREGNEUTRINO) || defined(UPARTREGNEUTRINO)
         cout << "The smearing requires to get the genjet associated to the reco jet.\n" <<
         "When considering the PNet/UparT regression including neutrinos, the 4vec of the neutrinos should be added to the one of the genjet.\n" <<
         "This is not implemented yet!" << endl;
@@ -3160,7 +3160,7 @@ void DijetHistosFill::Loop()
     // Calculate MC truth right after JEC and smearing to test closure
     if (isMC && doMCtruth)
     {
-      #ifdef PNETREGNEUTRINO || defined UPARTREGNEUTRINO
+      #if defined(PNETREGNEUTRINO) || defined(UPARTREGNEUTRINO)
         cout << "The MC Truth requires to get the genjet associated to the reco jet.\n" <<
         "When considering the PNet/UparT regression including neutrinos, the 4vec of the neutrinos should be added to the one of the genjet.\n" <<
         "This is not implemented yet!" << endl;

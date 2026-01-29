@@ -8,4 +8,4 @@ export XRD_RUNFORKHANDLER=1
 
 mkdir -p rootfiles/${VERSION}
 
-root -l -b -q "make/mk_GamHistosFill.C(\"${IOV}\",\"${VERSION}\", ${MAXFILES})"
+root -l -b -q "make/mk_DijetHistosFill.C(\"${IOV}\",\"${VERSION}\", ${MAXFILES})"
