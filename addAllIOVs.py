@@ -159,6 +159,7 @@ if doData:
 
         command = (
             "hadd "
+            + ("-f " if args.force else "")
             + "rootfiles/"
             + version
             + "/jmenano_data_out_"
@@ -166,7 +167,6 @@ if doData:
             + "_"
             + version
             + ".root "
-            + ("-f " if args.force else "")
         )
         for iov in IOV_list:
             command = (
@@ -196,6 +196,7 @@ if doMC:
         iov_string = iov_dict[MC_list[0].split("_")[0]]
         command = (
             "hadd "
+            + ("-f " if args.force else "")
             + "rootfiles/"
             + version
             + "/jmenano_mc_out_"
@@ -203,7 +204,6 @@ if doMC:
             + "_"
             + version
             + ".root "
-            + ("-f " if args.force else "")
         )
         for mc in MC_list:
             command = (
