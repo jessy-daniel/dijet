@@ -389,7 +389,7 @@ for iov in IOV_input:
 
     if args.local:
         os.system(
-            f'nohup time root -l -b -q \'make/mk_DijetHistosFill.C("{iov}","{version}",{max_files})\' > /work/mmalucch/logs_L2L3Res/dijet_logs/{version}/log_{iov}_{version}.log &'
+            f'nohup time root -l -b -q \'make/mk_DijetHistosFill.C("{iov}","{version}",{max_files})\' > /afs/cern.ch/work/j/jessy/private/CMS/PNET_Regression/Residuals/logs_L2L3Res/dijet_logs/{version}/TEST_log_{iov}_{version}.log &'
         )
     elif args.debug:
         os.system(
@@ -408,4 +408,4 @@ for iov in IOV_input:
             )
             print(f" => Follow jobs with 'condor_q'")
             
-    print(f" => Follow logging with 'tail -f /work/mmalucch/logs_L2L3Res/dijet_logs/{version}/log_{iov}_{version}.log'")
+    print(f" => Follow logging with 'tail -f /afs/cern.ch/work/j/jessy/private/CMS/PNET_Regression/Residuals/logs_L2L3Res/dijet_logs/{version}/log_{iov}_{version}.log'")

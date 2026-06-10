@@ -542,6 +542,9 @@ void DijetHistosFill::Loop()
   fChain->SetBranchStatus("Jet_mass", 1);
   fChain->SetBranchStatus("Jet_jetId", 1);
 
+  fChain->SetBranchStatus("Jet_chMultiplicity", 1);
+  fChain->SetBranchStatus("Jet_neMultiplicity", 1);
+
   fChain->SetBranchStatus("Jet_rawFactor", 1);
 
   #if defined PNETREG
@@ -558,14 +561,14 @@ void DijetHistosFill::Loop()
 
   #if defined UPARTREG
   cout << "USING UPART REGRESSION" << endl;
-  fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorr", 1);
-  // fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorrNeutrino", 1);
+  fChain->SetBranchStatus("Jet_UParTAK4RegPtRawCorr", 1);
+  // fChain->SetBranchStatus("Jet_UParTAK4RegPtRawCorrNeutrino", 1);
   #endif
 
   #if defined UPARTREGNEUTRINO
   cout << "USING UPART REGRESSION NEUTRINO" << endl;
-  fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorr", 1);
-  fChain->SetBranchStatus("Jet_UparTAK4RegPtRawCorrNeutrino", 1);
+  fChain->SetBranchStatus("Jet_UParTAK4RegPtRawCorr", 1);
+  fChain->SetBranchStatus("Jet_UParTAK4RegPtRawCorrNeutrino", 1);
   #endif
 
   if (isRun2)
@@ -2898,6 +2901,25 @@ void DijetHistosFill::Loop()
     // Do not re-sort (for now)
     bool allJetsGood(true);
     int njet = nJet;
+
+    // From the CondFormats/JetMETObjects/src/JetIdHelper.cc
+    // To include function that replaces the JetId for NANOAODV15.
+    const std::vector<UChar_t>& Jet_jetId_ref = InitJetId(
+    dataset,
+    nJet,
+    Jet_eta,
+    Jet_neHEF,
+    Jet_neEmEF,
+    Jet_chHEF,
+    Jet_chMultiplicity,
+    Jet_neMultiplicity,
+    Jet_muEF,
+    Jet_chEmEF,
+    Jet_jetId // this is the original branch, ignored in v15
+    );
+    
+    #define Jet_jetId Jet_jetId_ref
+
     bool skip_event = false;
     for (int i = 0; i != njet; ++i)
     {
@@ -2912,9 +2934,9 @@ void DijetHistosFill::Loop()
       #endif
 
       #ifdef UPARTREG
-      double Jet_UparTRegPtRawCorrTotal = Jet_UparTAK4RegPtRawCorr[i];
+      double Jet_UparTRegPtRawCorrTotal = Jet_UParTAK4RegPtRawCorr[i];
       #elif defined UPARTREGNEUTRINO
-      double Jet_UparTRegPtRawCorrTotal = Jet_UparTAK4RegPtRawCorrNeutrino[i];
+      double Jet_UparTRegPtRawCorrTotal = Jet_UParTAK4RegPtRawCorrNeutrino[i];
       #else
       double Jet_UparTRegPtRawCorrTotal = 1.;
       #endif
