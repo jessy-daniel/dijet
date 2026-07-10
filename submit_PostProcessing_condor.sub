@@ -12,7 +12,7 @@ output = /afs/cern.ch/work/j/jessy/private/CMS/PNET_Regression/Residuals/logs_L2
 error  = /afs/cern.ch/work/j/jessy/private/CMS/PNET_Regression/Residuals/logs_L2L3Res/dijet_logs/$(VERSION)_PostProcessing/log_$(IOV)_$(VERSION).err
 log    = /afs/cern.ch/work/j/jessy/private/CMS/PNET_Regression/Residuals/logs_L2L3Res/dijet_logs/$(VERSION)_PostProcessing/log_$(IOV)_$(VERSION).log
 
-request_memory = 4000MB
+request_memory = 32000MB
 request_disk = 800MB
 request_cpus = 1
 
